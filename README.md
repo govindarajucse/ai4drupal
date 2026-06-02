@@ -20,8 +20,8 @@ This repository provides a complete **R&R (Requirements & Review)** methodology 
 
 | Agent | Command | Purpose |
 |-------|---------|---------|
-| Requirements Analyst | `@requirements-analyst` | Gather & document requirements |
-| Code Reviewer | `@code-reviewer` | Quality & standards review |
+| Requirements Analyst | `@requirements-analyst` | Gather & document requirements || Architect | `@architect` | Technical design & architecture |
+| Implementation Assistant | `@implementation-assistant` | Code generation & development || Code Reviewer | `@code-reviewer` | Quality & standards review |
 | Test Engineer | `@test-engineer` | Test planning & execution |
 | Security Auditor | `@security-auditor` | Vulnerability assessment |
 | Deployment Engineer | `@deployment-engineer` | Release management |
@@ -42,6 +42,8 @@ This repository provides a complete **R&R (Requirements & Review)** methodology 
 | Prompt | Command | Purpose |
 |--------|---------|---------|
 | Jira Requirements | `/jira-requirements PROJ-123` | Requirements from ticket |
+| Jira Design | `/jira-design PROJ-123` | Technical architecture |
+| Jira Implement | `/jira-implement PROJ-123` | Code from ticket |
 | Jira Review | `/jira-review PROJ-123` | Code review → ticket |
 | Jira Test | `/jira-test PROJ-123` | Tests from acceptance criteria |
 | Jira Security | `/jira-security PROJ-123` | Security audit tracking |
@@ -72,9 +74,9 @@ Copy-Item .vscode/mcp.example.json .vscode/mcp.json
 
 ```
 Requirements → Design → Implementation → Review → Testing → Security → Deployment
-     ↓                                      ↓        ↓          ↓          ↓
- @requirements-                        @code-   @test-    @security-  @deployment-
-   analyst                             reviewer  engineer   auditor     engineer
+     ↓           ↓           ↓            ↓         ↓          ↓          ↓
+@requirements @architect @implementation @code-   @test-   @security- @deployment-
+  -analyst                 -assistant    reviewer  engineer   auditor    engineer
 ```
 
 ## Quality Gates
@@ -82,10 +84,12 @@ Requirements → Design → Implementation → Review → Testing → Security �
 | Gate | Phase | Threshold |
 |------|-------|-----------|
 | G1: Requirements | Requirements | Acceptance criteria complete |
-| G2: Code Quality | Review | PHPCS + PHPStan zero errors |
-| G3: Test Coverage | Testing | ≥80% coverage |
-| G4: Security | Security | Zero critical/high vulnerabilities |
-| G5: Deployment | Deployment | All smoke tests pass |
+| G2: Design | Design | Architecture documented |
+| G3: Implementation | Implementation | Standards compliance |
+| G4: Code Quality | Review | PHPCS + PHPStan zero errors |
+| G5: Test Coverage | Testing | ≥80% coverage |
+| G6: Security | Security | Zero critical/high vulnerabilities |
+| G7: Deployment | Deployment | All smoke tests pass |
 
 ## Directory Structure
 

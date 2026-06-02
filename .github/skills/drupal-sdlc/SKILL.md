@@ -35,7 +35,45 @@ This skill orchestrates the complete Software Development Lifecycle for Drupal p
 - [ ] Dependencies identified
 - [ ] Stakeholder sign-off
 
-### Phase 2: Code Review
+### Phase 2: Design
+**Agent**: `@architect`
+
+**Activities**:
+1. Analyze requirements for technical implications
+2. Research Drupal solutions (contrib modules, patterns)
+3. Design component architecture
+4. Define data models and APIs
+5. Create Architecture Decision Records (ADRs)
+6. Break down into implementation tasks
+
+**Output**: Technical design document
+
+**Gate Criteria**:
+- [ ] Architecture decisions documented
+- [ ] Data model defined
+- [ ] API contracts specified
+- [ ] Implementation tasks created
+
+### Phase 3: Implementation
+**Agent**: `@implementation-assistant`
+
+**Activities**:
+1. Generate module structure
+2. Implement services, plugins, controllers
+3. Follow Drupal coding standards
+4. Add proper documentation
+5. Create test stubs
+6. Update Jira with progress
+
+**Output**: Working Drupal code
+
+**Gate Criteria**:
+- [ ] Code follows standards
+- [ ] All acceptance criteria addressed
+- [ ] Documentation complete
+- [ ] Test stubs created
+
+### Phase 4: Code Review
 **Agent**: `@code-reviewer`
 
 **Activities**:
@@ -52,7 +90,7 @@ This skill orchestrates the complete Software Development Lifecycle for Drupal p
 - [ ] Security review passed
 - [ ] Standards compliance verified
 
-### Phase 3: Testing
+### Phase 5: Testing
 **Agent**: `@test-engineer`
 
 **Activities**:
@@ -69,7 +107,7 @@ This skill orchestrates the complete Software Development Lifecycle for Drupal p
 - [ ] Coverage ≥ 80%
 - [ ] Edge cases covered
 
-### Phase 4: Security Audit
+### Phase 6: Security Audit
 **Agent**: `@security-auditor`
 
 **Activities**:
@@ -86,7 +124,7 @@ This skill orchestrates the complete Software Development Lifecycle for Drupal p
 - [ ] No high vulnerabilities unmitigated
 - [ ] Dependencies up to date
 
-### Phase 5: Deployment
+### Phase 7: Deployment
 **Agent**: `@deployment-engineer`
 
 **Activities**:
@@ -131,6 +169,8 @@ All agents support Jira MCP for ticket-driven workflows:
 | Prompt | Purpose |
 |--------|---------|
 | `/jira-requirements` | Requirements from ticket |
+| `/jira-design` | Technical architecture |
+| `/jira-implement` | Code from ticket |
 | `/jira-review` | Code review → ticket |
 | `/jira-test` | Tests from acceptance criteria |
 | `/jira-security` | Security audit → vulnerabilities |
@@ -156,6 +196,8 @@ Run [validate-drupal.sh](./scripts/validate-drupal.sh) at each phase transition.
 | Phase | Agent | Gate | Blocking |
 |-------|-------|------|----------|
 | Requirements | requirements-analyst | Acceptance criteria | Yes |
+| Design | architect | Architecture documented | Yes |
+| Implementation | implementation-assistant | Standards compliance | No |
 | Review | code-reviewer | No critical issues | Yes |
 | Testing | test-engineer | 80% coverage | No |
 | Security | security-auditor | No critical vulns | Yes |

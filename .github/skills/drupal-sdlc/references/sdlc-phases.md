@@ -19,14 +19,15 @@
            │
            ▼
 ┌──────────────────────┐    Gate: Architecture
-│  2. DESIGN           │◄── approved
-│  Architecture Review │
+│  2. DESIGN           │◄── documented
+│  @architect          │
 └──────────┬───────────┘
            │
            ▼
-┌──────────────────────┐
-│  3. IMPLEMENTATION   │    (Development phase)
-│  AI-Assisted Coding  │
+┌──────────────────────┐    Gate: Standards
+│  3. IMPLEMENTATION   │◄── compliance
+│  @implementation-    │
+│    assistant         │
 └──────────┬───────────┘
            │
            ▼
@@ -73,18 +74,22 @@
 
 ### Phase 2: Design
 **Duration**: 1-2 days
-**Activities**:
-- Architecture decisions
-- Data model design
-- API contract definition
-- Integration planning
+**Agent**: `@architect`
+**Artifacts**:
+- Technical design document
+- Architecture Decision Records (ADRs)
+- Data model specifications
+- API contracts
+- Implementation task breakdown
 
 ### Phase 3: Implementation
 **Duration**: Variable
-**Activities**:
-- AI-assisted coding
-- Module development
-- Configuration setup
+**Agent**: `@implementation-assistant`
+**Artifacts**:
+- Working Drupal code
+- Module structure
+- Service definitions
+- Test stubs
 - Documentation
 
 ### Phase 4: Code Review
