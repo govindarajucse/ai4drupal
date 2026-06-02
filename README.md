@@ -1,30 +1,70 @@
-# AI4Drupal - R&R AI SDLC Pipeline
+# AI4Drupal — Orchestration Engine
 
-An AI-assisted Software Development Lifecycle (SDLC) pipeline for Drupal projects using VS Code Copilot customizations with **Jira integration**.
+An AI-assisted Software Development Lifecycle (SDLC) pipeline for Drupal projects using VS Code Copilot customizations with **evaluation gates** and **Jira integration**.
 
 ## Overview
 
-This repository provides a complete **R&R (Requirements & Review)** methodology implementation with:
+This repository provides a complete **6-phase SDLC pipeline** with:
 
+- **Persona Modes** for PO/BA, Tech Lead, Developer, QA
 - **Custom Agents** for each SDLC phase
+- **Evaluation Gates (E1-E6)** that score quality and optimize token spend
 - **File-specific Instructions** for Drupal development
 - **Prompt Templates** for common tasks
 - **Skills** for workflow orchestration
 - **Hooks** for automated quality enforcement
-- **Evaluation Gates** for quality assurance
 - **Jira MCP Integration** for ticket-driven workflows
+
+## WHO USES IT (Personas)
+
+| Persona | Mode | Entry Agent |
+|---------|------|-------------|
+| **PO / Business Analyst** | Epic Planning | `@epic-planner` |
+| **Tech Lead / Architect** | Tech Analysis | `@tech-analyst` |
+| **Developer** | Agentic Mode | `@developer` |
+| **QA / Tester** | Agentic Mode | `@qa-tester` |
+
+## Pipeline Phases
+
+```
+┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
+│  PLAN   │──▶│  SETUP  │──▶│  CODE   │──▶│  BUILD  │──▶│  TEST   │──▶│ RELEASE │
+│         │   │         │   │         │   │         │   │         │   │         │
+│Epic+Tech│   │  Repo   │   │Arch+Dev │   │Compile+ │   │  QA +   │   │ Review  │
+│Analysis │   │ Config  │   │Implement│   │ Verify  │   │Coverage │   │Loop + PR│
+└────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘
+     │E1           │E2           │E3           │E4           │E5           │E6
+     ▼             ▼             ▼             ▼             ▼             ▼
+   ≥80%          100%          ≥85%          ≥90%          ≥85%          100%
+```
+
+**○ Evaluation gate after each phase — scores quality, optimizes token spend**
+
+## OUTPUTS
+
+| Output | Description |
+|--------|-------------|
+| ✓ **Epic + Stories** | Functional spec, vertical slicing, AC |
+| ✓ **Repo + Branch** | Configured, ready |
+| ✓ **Production Code** | Tested + reviewed |
+| ✓ **Merged PR** | Jira updated |
 
 ## Quick Start
 
-### Available Agents
+### All Agents
 
-| Agent | Command | Purpose |
-|-------|---------|---------|
-| Requirements Analyst | `@requirements-analyst` | Gather & document requirements || Architect | `@architect` | Technical design & architecture |
-| Implementation Assistant | `@implementation-assistant` | Code generation & development || Code Reviewer | `@code-reviewer` | Quality & standards review |
-| Test Engineer | `@test-engineer` | Test planning & execution |
-| Security Auditor | `@security-auditor` | Vulnerability assessment |
-| Deployment Engineer | `@deployment-engineer` | Release management |
+| Agent | Command | Phase |
+|-------|---------|-------|
+| Epic Planner | `@epic-planner` | PLAN |
+| Tech Analyst | `@tech-analyst` | PLAN |
+| Requirements Analyst | `@requirements-analyst` | PLAN |
+| Repo Setup | `@repo-setup` | SETUP |
+| Architect | `@architect` | CODE |
+| Developer | `@developer` | CODE |
+| Code Reviewer | `@code-reviewer` | BUILD |
+| QA Tester | `@qa-tester` | TEST |
+| Security Auditor | `@security-auditor` | TEST |
+| Deployment Engineer | `@deployment-engineer` | RELEASE |
 
 ### Available Prompts
 
@@ -51,7 +91,12 @@ This repository provides a complete **R&R (Requirements & Review)** methodology 
 
 ### SDLC Skill
 
-Run the full pipeline with `/drupal-sdlc` or `/drupal-sdlc PROJ-123` for ticket-driven workflow.
+Run the full pipeline:
+```
+/drupal-sdlc PROJ-123          # Full pipeline from ticket
+@epic-planner PROJ-123          # PO/BA entry point
+@developer feature-name         # Developer agentic mode
+```
 
 ## Jira Setup
 
@@ -70,26 +115,37 @@ Copy-Item .vscode/mcp.example.json .vscode/mcp.json
 # 3. Restart VS Code
 ```
 
-## R&R SDLC Workflow
+## Evaluation Gates
 
+Each phase has an evaluation gate that scores quality and optimizes token spend.
+
+| Gate | Phase | Threshold | Action on Fail |
+|------|-------|-----------|----------------|
+| E1 | PLAN | ≥80% | Return to planning |
+| E2 | SETUP | 100% | Complete setup |
+| E3 | CODE | ≥85% | Fix code issues |
+| E4 | BUILD | ≥90% | Address review |
+| E5 | TEST | ≥85% | Add tests |
+| E6 | RELEASE | 100% | Complete prerequisites |
+
+### Scoring Formula
 ```
-Requirements → Design → Implementation → Review → Testing → Security → Deployment
-     ↓           ↓           ↓            ↓         ↓          ↓          ↓
-@requirements @architect @implementation @code-   @test-   @security- @deployment-
-  -analyst                 -assistant    reviewer  engineer   auditor    engineer
+Gate Score = (Criteria Met / Total Criteria) × Weight Multiplier
+- Critical criteria: 2.0x
+- Standard criteria: 1.0x
+- Optional criteria: 0.5x
 ```
 
-## Quality Gates
+## Integrations
 
-| Gate | Phase | Threshold |
-|------|-------|-----------|
-| G1: Requirements | Requirements | Acceptance criteria complete |
-| G2: Design | Design | Architecture documented |
-| G3: Implementation | Implementation | Standards compliance |
-| G4: Code Quality | Review | PHPCS + PHPStan zero errors |
-| G5: Test Coverage | Testing | ≥80% coverage |
-| G6: Security | Security | Zero critical/high vulnerabilities |
-| G7: Deployment | Deployment | All smoke tests pass |
+| Tool | Purpose |
+|------|---------|
+| **IDE** | VS Code with Copilot |
+| **AI Coding Assistant** | GitHub Copilot |
+| **Jira** | Ticket management |
+| **Confluence** | Documentation |
+| **GitHub** | Version control, PR |
+| **Figma** | UI/UX designs |
 
 ## Directory Structure
 
@@ -97,17 +153,29 @@ Requirements → Design → Implementation → Review → Testing → Security �
 .github/
 ├── copilot-instructions.md      # Project-wide Drupal standards
 ├── instructions/                # File-specific instructions
-├── agents/                      # R&R phase agents
+├── agents/                      # Phase agents (10 agents)
+│   ├── epic-planner.agent.md
+│   ├── tech-analyst.agent.md
+│   ├── repo-setup.agent.md
+│   ├── developer.agent.md
+│   ├── qa-tester.agent.md
+│   └── ...
 ├── prompts/                     # Prompt templates
 ├── skills/drupal-sdlc/          # SDLC orchestration skill
 ├── hooks/                       # Automation hooks
-└── evaluations/                 # Quality gate definitions
+└── evaluations/                 # Evaluation gates (E1-E6)
+    ├── E1-plan-gate.md
+    ├── E2-setup-gate.md
+    ├── E3-code-gate.md
+    ├── E4-build-gate.md
+    ├── E5-test-gate.md
+    └── E6-release-gate.md
 ```
 
 ## Contributing
 
 1. Follow Drupal coding standards
-2. Run all quality gates before PR
+2. Run all evaluation gates before PR
 3. Include tests for new functionality
 4. Update documentation as needed
 
