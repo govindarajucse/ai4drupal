@@ -1,0 +1,44 @@
+# AI4Drupal .gitignore
+
+# VS Code settings with credentials
+.vscode/mcp.json
+.vscode/settings.json
+
+# Keep VS Code templates (rename to use)
+!.vscode/*.example.json
+
+# Drupal
+web/sites/*/files/
+web/sites/*/private/
+web/sites/*/settings.local.php
+
+# Composer
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+
+# Build artifacts
+/node_modules/
+/coverage/
+/.phpunit.result.cache
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+*.local.yml
+
+# Logs
+*.log

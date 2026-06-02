@@ -1,0 +1,31 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "./.github/hooks/scripts/pre-tool-check.sh",
+        "timeout": 30,
+        "windows": {
+          "command": "powershell -ExecutionPolicy Bypass -File ./.github/hooks/scripts/pre-tool-check.ps1"
+        }
+      }
+    ],
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "./.github/hooks/scripts/post-tool-format.sh",
+        "timeout": 30,
+        "windows": {
+          "command": "powershell -ExecutionPolicy Bypass -File ./.github/hooks/scripts/post-tool-format.ps1"
+        }
+      }
+    ],
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "echo 'AI4Drupal SDLC Session Started'",
+        "timeout": 5
+      }
+    ]
+  }
+}
